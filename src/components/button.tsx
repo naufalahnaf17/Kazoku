@@ -1,9 +1,8 @@
-import { Pressable } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 import React from "react";
 import { getResponsiveSize } from "@utils/responsive";
 import { spacing } from "@utils/spacing";
 import TextComponents from "./text";
-import { color } from "@utils/colors";
 import { LinearGradient } from "expo-linear-gradient";
 
 interface ButtonComponentsProps {
@@ -27,25 +26,26 @@ export default function ButtonComponents({
   loading,
   height,
 }: ButtonComponentsProps) {
+  const dynamicContainerStyle = {
+    flex: height ? 1 : 0,
+    borderRadius: getResponsiveSize(spacing.small),
+  };
+
+  const dynamicPressableStyle = {
+    flex: height ? 1 : 0,
+    height: height ? getResponsiveSize(height) : getResponsiveSize(50),
+    borderRadius: getResponsiveSize(spacing.small),
+  };
+
   return (
     <LinearGradient
       colors={["#d584ec", "#d487ef", "#9d8ff3"]}
-      style={{
-        flex: height ? 1 : 0,
-        borderRadius: getResponsiveSize(spacing.small),
-      }}
+      style={[styles.container, dynamicContainerStyle]}
     >
       <Pressable
         onPress={onPress}
         disabled={disabled}
-        style={{
-          flex: height ? 1 : 0,
-          height: height ? getResponsiveSize(height) : getResponsiveSize(50),
-          alignItems: "center",
-          justifyContent: "center",
-          flexDirection: "row",
-          borderRadius: getResponsiveSize(spacing.small),
-        }}
+        style={[styles.pressable, dynamicPressableStyle]}
       >
         <TextComponents
           text={textButton || ""}
@@ -56,3 +56,12 @@ export default function ButtonComponents({
     </LinearGradient>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {},
+  pressable: {
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+  },
+});

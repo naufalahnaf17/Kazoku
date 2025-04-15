@@ -1,4 +1,4 @@
-import { Text } from "react-native";
+import { Text, StyleSheet, TextStyle } from "react-native";
 import React from "react";
 import { getResponsiveSize } from "@utils/responsive";
 import { Colors } from "react-native/Libraries/NewAppScreen";
@@ -26,37 +26,40 @@ export default function TextComponents({
   subTextColor,
   subTextType,
 }: TextComponentsProps) {
+  const getFontFamily = (fontType?: string) => {
+    switch (fontType) {
+      case "bold":
+        return "Poppins-Bold";
+      case "medium":
+        return "Poppins-Medium";
+      case "regular":
+      default:
+        return "Poppins-Regular";
+    }
+  };
+
+  const textStyle: TextStyle = {
+    ...styles.text,
+    fontFamily: getFontFamily(type),
+    fontSize: fontSize || getResponsiveSize(14),
+    color: color || Colors.black,
+    textAlign: textAlign || "left",
+  };
+
+  const subTextStyle: TextStyle = {
+    ...styles.subText,
+    fontFamily: getFontFamily(subTextType),
+    color: subTextColor,
+  };
+
   return (
-    <Text
-      style={{
-        fontFamily: type
-          ? type === "regular"
-            ? "Poppins-Regular"
-            : type === "bold"
-            ? "Poppins-Bold"
-            : "Poppins-Medium"
-          : "Poppins-Regular",
-        fontSize: fontSize || getResponsiveSize(14),
-        color: color || Colors.black,
-        textAlign: textAlign ? textAlign : "left",
-      }}
-      numberOfLines={numberOfLines}
-    >
-      {text}{" "}
-      <Text
-        style={{
-          fontFamily: subTextType
-            ? subTextType === "regular"
-              ? "Poppins-Regular"
-              : subTextType === "bold"
-              ? "Poppins-Bold"
-              : "Poppins-Medium"
-            : "Poppins-Regular",
-          color: subTextColor,
-        }}
-      >
-        {subText}
-      </Text>
+    <Text style={textStyle} numberOfLines={numberOfLines}>
+      {text} <Text style={subTextStyle}>{subText}</Text>
     </Text>
   );
 }
+
+const styles = StyleSheet.create({
+  text: {},
+  subText: {},
+});

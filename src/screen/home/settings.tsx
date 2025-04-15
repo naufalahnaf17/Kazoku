@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import React from "react";
 import LottieView from "lottie-react-native";
 import { color } from "@utils/colors";
@@ -7,24 +7,14 @@ import { spacing } from "@utils/spacing";
 
 export default function Settings() {
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: color.white,
-      }}
-    >
+    <View style={styles.container}>
       <LottieView
         autoPlay
-        style={{
-          width: "100%",
-          height: "30%",
-        }}
+        style={styles.animation}
         source={require("@assets/icon/404.json")}
       />
 
-      <View style={{ marginTop: spacing.normal * 3 }} />
+      <View style={styles.spacer} />
 
       <TextComponents
         text={`Menu ini sedang\ndalam pengembangan`}
@@ -35,3 +25,19 @@ export default function Settings() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: color.white,
+  },
+  animation: {
+    width: "100%",
+    height: "30%",
+  },
+  spacer: {
+    marginTop: spacing.normal * 3,
+  },
+});
